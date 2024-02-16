@@ -10,11 +10,12 @@ static constexpr const uint8_t firmware_ver_patch = 10;
 static constexpr uint8_t frame_width  = 32;
 static constexpr uint8_t frame_height = 24;
 
-static constexpr inline float convertRawToCelsius(int32_t rawdata) {
-    return ((float)rawdata / 128) - 64.0f;
+static constexpr inline float convertRawToFahrenheit(int32_t rawdata) {
+    return ((float)rawdata / 128 - 64.0f) * 9.0f / 5.0f + 32.0f;
 }
-static constexpr inline int32_t convertCelsiusToRaw(float temperature) {
-    return (temperature + 64) * 128;
+
+static constexpr inline int32_t convertFahrenheitToRaw(float temperature) {
+    return ((temperature - 32.0f) * 5.0f / 9.0f + 64) * 128;
 }
 
 static constexpr const char mon_tbl[12][4] = {
@@ -1253,7 +1254,7 @@ struct config_param_t {
     config_property_value_t<uint8_t> net_jpg_quality = {uint8_t_text_func, 60,
                                                         1, 100, 1};
     config_property_value_t<uint8_t> misc_layout     = {uint8_t_text_func, 1, 0,
-                                                    255, 1};
+                                                        255, 1};
     config_property_value_t<uint8_t> misc_backtofactory = {
         misc_backtofactory_text_func, 0, 0, 0, 0, misc_backtofactory_func};
     config_property_value_t<uint8_t> misc_staff = {misc_staff_text_func, 0, 0,
